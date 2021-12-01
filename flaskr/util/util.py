@@ -1,10 +1,11 @@
+import os
 import boto3
 import botocore
 from botocore.exceptions import NoCredentialsError
 
-ACCESS_KEY = 'AKIAQIW3PC4BGJ7QUP7F'
-SECRET_KEY = '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'
-BUCKET_NAME = 's3bucketgrupo20'
+ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
+SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
+BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
 
 class util:
 
