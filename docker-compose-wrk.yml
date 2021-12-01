@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  celery_worker:
+    container_name: celery_worker
+    restart: always
+    build:
+      context: ./
+      dockerfile: celery_worker/Dockerfile
+    volumes:
+      - /Proyecto-Grupo20-202120:/usr/src/flaskr
+    command: celery -A flaskr.services worker --loglevel=INFO
+    depends_on:
+      - redis
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
