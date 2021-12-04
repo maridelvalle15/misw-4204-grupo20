@@ -11,7 +11,7 @@ from ..models import db, Task, Status, User
 from ..util import util
 
 celery_app = Celery(
-    "converter", backend=os.environ.get('REDIS_URL'), broker=os.environ.get('REDIS_URL')
+    "converter", backend=os.environ.get('REDIS_TLS_URL'), broker=os.environ.get('REDIS_TLS_URL')
 )
 
 flask_app = create_app('default')
