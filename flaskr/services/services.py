@@ -32,8 +32,8 @@ def convert_audio(id: int):
 
     # convert audio file
     if task.status == Status.UPLOADED:
-        TEMP_UPLOAD_FOLDER = os.path.abspath(os.getcwd()) + "/files/uploads/"
-        TEMP_PROCESSED_FOLDER = os.path.abspath(os.getcwd()) + "/files/processed/"
+        TEMP_UPLOAD_FOLDER = os.path.abspath(os.getcwd()) 
+        TEMP_PROCESSED_FOLDER = os.path.abspath(os.getcwd()) 
         S3_UPLOAD_FOLDER =  "files/uploads/"
         S3_PROCESSED_FOLDER =  "files/processed/"
         logger.info("Archivo a procesar")
