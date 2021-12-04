@@ -41,8 +41,7 @@ class util:
         return filedata
 
     def downloadFile(local_file_name,s3_file_name):
-        print(local_file_name)
-        client = boto3.client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
+        client = boto3.client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name='us-east-1')
         download_file_response = client.download_file(BUCKET_NAME, s3_file_name, local_file_name)
         print(f" ** Response - {download_file_response}")
 
