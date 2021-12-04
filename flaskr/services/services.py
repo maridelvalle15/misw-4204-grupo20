@@ -46,6 +46,8 @@ def convert_audio(id: int):
             s3file=util.downloadFileS3(s3SourceFile)
             logger.info("Tipo Archivo" + str(type(s3file)))
             logger.info("Archivo descargado: " + s3SourceFile)
+            output_file=from_bytes_to_bytes(s3file)
+            logger.info("Tipo Archivo" + str(type(output_file)))
             localProcessedFile = os.path.join(TEMP_PROCESSED_FOLDER, task.uploaded_file + "." + task.processed_format.name.lower())
             logger.info("Nuevo archivo local: " + localProcessedFile)
             s3TargetFile=S3_PROCESSED_FOLDER+task.uploaded_file + "." + task.processed_format.name.lower()
@@ -101,3 +103,28 @@ def notify_user(task: Task):
     text = message.as_string()
     session.sendmail(sender_email, receiver_email, text)
     session.quit()
+    
+def from_bytes_to_bytes(
+        input_bytes: bytes,
+        action: str = "-f wav -acodec pcm_s16le -ac 1 -ar 44100")-> bytes or None:
+    command = f"ffmpeg -y -i /dev/stdin -f nut {action} -"
+    ffmpeg_cmd = subprocess.Popen(
+        shlex.split(command),
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        shell=False
+    )
+    b = b''
+    # write bytes to processe's stdin and close the pipe to pass
+    # data to piped process
+    ffmpeg_cmd.stdin.write(input_bytes)
+    ffmpeg_cmd.stdin.close()
+    while True:
+        output = ffmpeg_cmd.stdout.read()
+        if len(output) > 0:
+            b += output
+        else:
+            error_msg = ffmpeg_cmd.poll()
+            if error_msg is not None:
+                break
+    return b
