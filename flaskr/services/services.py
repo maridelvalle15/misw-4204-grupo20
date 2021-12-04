@@ -9,6 +9,7 @@ from email.mime.text import MIMEText
 from ..app import create_app
 from ..models import db, Task, Status, User
 from ..util import util
+import time
 
 celery_app = Celery(
     "converter", backend=os.environ.get('REDIS_TLS_URL'), broker=os.environ.get('REDIS_TLS_URL')
@@ -23,6 +24,7 @@ logger = get_task_logger(__name__)
 
 @celery_app.task(name="convert")
 def convert_audio(id: int):
+    time.sleep(5)
     # get task
     task = Task.query.get_or_404(id)
 
