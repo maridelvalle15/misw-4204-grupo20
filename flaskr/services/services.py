@@ -11,7 +11,7 @@ from ..models import db, Task, Status, User
 from ..util import util
 import time
 import subprocess
-import datetime
+import shlex
 
 celery_app = Celery(
     "converter", backend=os.environ.get('REDIS_TLS_URL'), broker=os.environ.get('REDIS_TLS_URL')
