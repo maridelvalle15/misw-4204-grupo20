@@ -40,12 +40,15 @@ def convert_audio(id: int):
             s3SourceFile = S3_UPLOAD_FOLDER + task.uploaded_file
             
             logger.info("Descargar Archivo")
-            logger.info("localSourceFile" + localSourceFile)
-            logger.info("s3SourceFile" + s3SourceFile)
+            logger.info("localSourceFile: " + localSourceFile)
+            logger.info("s3SourceFile: " + s3SourceFile)
             
             util.downloadFile(localSourceFile,s3SourceFile)
+            logger.info("Archivo descargado: " + s3SourceFile)
             localProcessedFile = os.path.join(TEMP_PROCESSED_FOLDER, task.uploaded_file + "." + task.processed_format.name.lower())
+            logger.info("Nuevo archivo local: " + localProcessedFile)
             s3TargetFile=S3_PROCESSED_FOLDER+task.uploaded_file + "." + task.processed_format.name.lower()
+            logger.info("Nuevo archivo en S3: " + s3TargetFile)
             ffmpeg.input(localSourceFile).output(localProcessedFile).overwrite_output().run()
             logger.info("Archivo procesado")
             util.uploadFile(localProcessedFile,s3TargetFile)
