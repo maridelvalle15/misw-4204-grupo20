@@ -14,7 +14,7 @@ from ..util import util
 import datetime
 
 celery_app = Celery(
-    "converter", backend="redis://172.31.28.3:6379", broker="redis://172.31.28.3:6379"
+    "converter", backend=os.environ.get('REDIS_URL'), broker=os.environ.get('REDIS_URL')
 )
 
 usuario_schema = UserSchema()
