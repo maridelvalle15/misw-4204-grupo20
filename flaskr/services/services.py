@@ -45,7 +45,7 @@ def convert_audio(id: int):
             logger.info("localSourceFile: " + localSourceFile)
             logger.info("s3SourceFile: " + s3SourceFile)
             
-            util.downloadFile(s3SourceFile,localSourceFile)
+            util.downloadFile(localSourceFile,s3SourceFile)
             logger.info("Archivo descargado: ")
             if os.path.isfile(localSourceFile):
                 logger.info("Archivo existe en la ruta: " + localSourceFile)
