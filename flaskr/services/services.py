@@ -43,7 +43,8 @@ def convert_audio(id: int):
             logger.info("localSourceFile: " + localSourceFile)
             logger.info("s3SourceFile: " + s3SourceFile)
             
-            util.downloadFile(localSourceFile,s3SourceFile)
+            s3file=util.downloadFileS3(s3SourceFile)
+            logger.info("Tipo Archivo" + str(type(s3file)))
             logger.info("Archivo descargado: " + s3SourceFile)
             localProcessedFile = os.path.join(TEMP_PROCESSED_FOLDER, task.uploaded_file + "." + task.processed_format.name.lower())
             logger.info("Nuevo archivo local: " + localProcessedFile)
