@@ -90,7 +90,7 @@ def notify_user(task: Task):
     Tu tarea de convertir el archivo {task.uploaded_file} a formato {task.processed_format.name}, ha terminado."""
 
     receiver_email = user.email
-    sender_email = "pruebame.de.una@gmail.com"
+    sender_email = "pruebame.de.una20@gmail.com"
     sender_pw = "probameya"
 
     message = MIMEMultipart()
