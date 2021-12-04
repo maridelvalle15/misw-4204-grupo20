@@ -32,17 +32,21 @@ def convert_audio(id: int):
         TEMP_PROCESSED_FOLDER = os.path.abspath(os.getcwd()) + "/files/processed/"
         S3_UPLOAD_FOLDER =  "files/uploads/"
         S3_PROCESSED_FOLDER =  "files/processed/"
-
+        logger.info("Archivo a procesar")
         try:
             localSourceFile = os.path.join(TEMP_UPLOAD_FOLDER, task.uploaded_file)
             s3SourceFile = S3_UPLOAD_FOLDER + task.uploaded_file
             util.downloadFile(localSourceFile,s3SourceFile)
+            logger.info("Descargar Archivo")
             localProcessedFile = os.path.join(TEMP_PROCESSED_FOLDER, task.uploaded_file + "." + task.processed_format.name.lower())
             s3TargetFile=S3_PROCESSED_FOLDER+task.uploaded_file + "." + task.processed_format.name.lower()
             ffmpeg.input(localSourceFile).output(localProcessedFile).overwrite_output().run()
+            logger.info("Archivo procesado")
             util.uploadFile(localProcessedFile,s3TargetFile)
+            logger.info("Archivo subido a S3")
             os.remove(localProcessedFile)
             os.remove(localSourceFile)
+            logger.info("Remover archivos locales")
 
         except BaseException as e:
             e = f" error {e=}, {type(e)=}"
@@ -50,8 +54,10 @@ def convert_audio(id: int):
 
         # change status
         task.status = Status.PROCESSED
+        logger.info("Cambiar estado de la tarea")
         task.processed_file = task.uploaded_file + "." + task.processed_format.name.lower()
         db.session.commit()
+        logger.info("Actualizar tarea")
 
         # notify user
         notify_user(task)
