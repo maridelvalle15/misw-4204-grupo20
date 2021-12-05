@@ -26,7 +26,6 @@ logger = get_task_logger(__name__)
 
 @celery_app.task(name="convert")
 def convert_audio(id: int):
-    time.sleep(5)
     # get task
     task = Task.query.get_or_404(id)
 
